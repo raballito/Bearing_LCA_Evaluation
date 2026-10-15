@@ -372,37 +372,21 @@ Exemple :
 ```json
 { 
   "name": "SKF 6307-2RS1",
-
   "position": "rear",
-
   "quantity": 1,
-
   "mass_kg": 0.458,
-
   "bearing_type": "ball",
-
   "supports_axial_load": true,
-  
   "f0": 13.1,
-
   "dynamic_capacity_N": 49300,
-
-  "static_capacity_N*: 19000,
-
+  "static_capacity_N": 19000,
   "speed_limit_rpm": 10000,
-
   "manufacturing_co2_g": 1700,
-
   "distribution_co2_g": 92,
-
   "end_of_life_co2_g": 20,
-
   "maintenance_co2_g": 0,
-
   "maintenance_interval_rev": null,
-
   "friction_file": "./friction_SKF_6307_2RS1.xlsx",
-
   "loads_file": "./loads/SKF_6307_2RS1_loads.json"
 }
 ```
