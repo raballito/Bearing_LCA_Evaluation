@@ -1,9 +1,4 @@
-# Bearing_LCA_Evaluation
-LCA Evaluation pour bearing in a light vehicle
-=======
-# MULO – Optimisation de la durée de vie des roulements
-
-## Objectif du projet
+# Objectif du projet
 
 Ce programme a été développé dans le cadre de l'étude environnementale du véhicule MULO.
 
