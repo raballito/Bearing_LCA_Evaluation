@@ -308,7 +308,7 @@ Valeurs d'ordre de grandeur :
 
 ### SKF NU2206 ECP
 ```text
-30 gCO₂
+51 gCO₂
 ```
 
 ---
@@ -317,7 +317,7 @@ Valeurs d'ordre de grandeur :
 Actuellement :
 
 ```text
-0 gCO₂
+20 gCO₂
 ```
 
 Le recyclage de l'acier n'est pas explicitement valorisé.
@@ -326,7 +326,7 @@ Le recyclage de l'acier n'est pas explicitement valorisé.
 
 ## Hypothèse 6 – Maintenance
 
-Actuellement :
+Actuellement la valeur suivante est utilisée pour le 6307:
 
 ```text
 0 gCO₂
@@ -338,11 +338,11 @@ Une valeur indicative de :
 10 gCO₂
 ```
 
-par relubrification peut être utilisée lors de futures études.
+par relubrification est utilisée pour le roulement NU2206.
 
 ---
 
-# Configu*ation du véhicule
+# Configuration du véhicule
 
 Modifier :
 
