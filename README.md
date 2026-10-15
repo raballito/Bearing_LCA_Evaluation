@@ -393,11 +393,39 @@ Exemple :
 
 ---
 
+# Configuration d'un cas de charge
+
+Exemple :
+
+```json
+{
+    "roulage": {
+    "Fx_N": 0,
+    "Fy_N": 0,
+    "Fz_N": 2378
+    },
+
+    "acceleration_max": {
+    "Fx_N": 1709,
+    "Fy_N": -1339,
+    "Fz_N": 2378
+    },
+
+    "freinage_max": {
+    "Fx_N": -1709,
+    "Fy_N": -1339,
+    "Fz_N": 2378
+    }
+}
+```
+
+---
+
 # Ajouter un nouveau roulement
 
 ## Étape 1
 
-Créer un fichier json selon l'exemple ci-dessus':
+Créer un fichier json selon l'exemple ci-dessus :
 
 ```text
 bearings/NouveauRoulement.json
@@ -423,11 +451,13 @@ Force Axiale [N]
 ...
 ```
 
+Ces colonnes sont remplies à l'aide du calculateur SKF qui donnes ces valeurs.
+
 ---
 
 ## Étape 3
 
-Créer :
+Créer avec les 3 situations "roulage", "acceleration_max" et "freinage_max" :
 
 ```text
 loads/NouveauRoulement_loads.json
@@ -437,7 +467,7 @@ loads/NouveauRoulement_loads.json
 
 ## Étape 4
 
-Ajouter son nom dans :
+Ajouter son nom dans la liste :
 
 ```python
 SELECTED_BEARINGS
@@ -464,10 +494,14 @@ SHOW_AVERAGE_CO2
 # Paramètres de calcul
 
 ## Roulements analysés
+Les roulements analysés sont contenus dans la liste :
 
 ```python
 SELECTED_BEARINGS
 ```
+
+D'autres roulements peuvent être ajoutés en suivant la procédure ci-dessus.
+Les roulements peuvent aussi être désactivés de l'étude en le commentant (#).
 
 ---
 
@@ -475,14 +509,6 @@ SELECTED_BEARINGS
 
 ```python
 ALPHA_VALUES
-```
-
----
-
-## Sensibilité sur β
-
-```python
-BETA_VALUES
 ```
 
 ---
