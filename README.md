@@ -61,7 +61,7 @@ Le modèle repose sur plusieurs briques :
 
 ## 1. Modèle de chargement
 
-Les efforts appliqués au roulement sont définis dans :
+Les efforts appliqués au roulement sont définis dans le dossier :
 
 ```text
 loads/
@@ -69,9 +69,9 @@ loads/
 
 Chaque scénario contient :
 
-- Fx
-- Fy
-- Fz
+- Fx [N]
+- Fy [N]
+- Fz [N]
 
 Le programme calcule ensuite automatiquement :
 
@@ -88,262 +88,258 @@ Fa = abs(Fy)
 Le couple de frottement est obtenu à partir :
 
 ```text
-friction/*.*lsx
-``*
+friction/*.xlsx
 
-Les données proviennent du calcu*ateur SKF.
+Les données proviennent du calculateur SKF.
 
-Une interpolation 3D e*t réalisée selon :
+Une interpolation 3D est réalisée selon :
 
 ```text
 Fr
 Fa
-*PM
+RPM
 ```
 
-Le modèle*retourne :
+Le modèle retourne :
 
 ```text
-Moment*de frottement [N.m]
+Moment de frottement [N.m]
 ```
 
 *--
 
-## 3. Charge*dynamique équivalente SKF
+## 3. Charge dynamique équivalente SKF
 
-Pour le**roulements supportant les*efforts axiaux :
+Pour les roulements supportant les efforts axiaux :
 
 ```text
 P = Fr
-`*`
+
 
 si :
 
 ```text
-Fa/Fr ≤*e
+Fa/Fr ≤ e
 ```
 
-Sinon*:
+Sinon :
 
 ```text
-P = X·Fr +*Y·Fa
+P = X·Fr + Y·Fa
 ```
 
 Les coefficients :
 
--*e
+- e
 - X
 - Y
 
-sont*interpolés depuis :
+sont interpolés depuis :
 
 ```text
-SKF_B*aring*Coef.xlsx
+SKF_Bearing_Coef.xlsx
 ```
 
-en*fonction du paramètre SKF*:
+en fonction du paramètre SKF :
 
 ```text
-f0·Fa/C0*```
+f0·Fa/C0
 
----
-
-## 4. Durée*de vie L10
-
-La durée de vie nomina** est calculée selon*:
+La durée de vie nominale est calculée selon :
 
 ```math
-L10=*C/P)^p·10^6
+L10=(C/P)^p·10^6
 ```
 
 avec :
 
-### Roule*ents à billes*
+### Roulements à billes
 ```text
 p = 3
 ```
 
-### Roulements*à rouleaux
+### Roulements à rouleaux
 
-```text*p = 10/3
+```text
+p = 10/3
 ```
 
-*e résultat est obtenu en :
+Le résultat est obtenu en :
 
-- tour*
+- tours
 - kilomètres
 
-*--
+---
 
-##*5. Modèle d'usure
+## 5. Modèle d'usure
 
-Le*modèle utilise la*loi :
+Le modèle utilise la loi :
 
 ```math
 M =*M0·(1 + α*(N/L10)^β)
 ```
 
-*vec :
+Avec :
 
-| Paramètre |*Signification |
-|------------*------------|
-| M0 |*Couple du roulement neuf |
-| N | N*mbre de tours réalisés*|
-|*L10 |*Durée de vie nominale |
-| α | Ampl*tude de la dégradation |
-| β | For*e de la dégradation |
+| Paramètre | Signification |
+|-------------------------|
+| M0 | Couple du roulement neuf |
+| N | Nombre de tours réalisés |
+| L10 | Durée de vie nominale |
+| α | Amplitude de la dégradation |
+| β | Force de la dégradation |
 
 ---
 
-# Hypo*hèses principales*
-## Hypothèse 1 – Profil d*utilisation
+# Hypothèses principales
+## Hypothèse 1 – Profil d'utilisation
 
-Le véhicule n'est pas*utilisé dans un seul état de charg*.
+Le véhicule n'est pas utilisé dans un seul état de charge.
 
-Un profil de conduite est défin* :
+Un profil de conduite est défini :
 
-*``python
+```python
 USAGE_PROFILE = {
-    "*oulage": 0.70,
-    "*cceleration_max": 0.15,
-   *"freinage_max": 0.15*}
+    "roulage": 0.70,
+    "acceleration_max": 0.15,
+    "freinage_max": 0.15}
 ```
 
-La somme des poids doit êtr* égale*à :
+La somme des poids doit être égale à :
 
 ```text
-1.0*```
+1.0 ```
 
 ---
 
-## Hypothèse 2 – Vieilli*sement
+## Hypothèse 2 – Vieillissement
 
-*ucune loi de*vieillissement spécifique au*roulement n'a été ident*fiée dans la littérature.
+Aucune loi de vieillissement spécifique au roulement n'a été identifiée dans la littérature.
 
-Le viei*l*ssement est donc représenté par*:
+Le vieillissement est donc représenté par :
 
 ```math
 M =*M0·(1 + α·(N*L10)^β)
-*``
+```
 
 ### α
 
-Contrôle l'amplitude de*l'usure.
+Contrôle l'amplitude de l'usure.
 
-Valeur*nominale :
+Valeur nominale :
 
 ```text
-α =*0.5
+α = 0.5
 ```
 
-Valeurs étudi*es :
+Valeurs étudiées :
 
 ```text
 0.5
 2
 5
 10
-*0
+20
 ```
 
 ---
 
 ### β
 
-Contrôle*la forme de la dégradation.
+Contrôle la forme de la dégradation.
 
-Vale*r nominale :
+Valeur nominale :
 
 ```text
-β = *
+β = 2
 ```
 
 Interprétation :
 
-| β*| Interprétation |
-|------*------|
-| β < 1 | Usure précoce*|
-| β = 1 | Usure liné*ire |
-| β = 2 | Usure*progressive |
-| β > 2 | Usure*retardée |
+| β | Interprétation |
+|-------------|
+| β < 1 | Usure précocee|
+| β = 1 | Usure linéaire |
+| β = 2 | Usure progressive |
+| β > 2 | Usure retardée |
 
 Valeurs étudiées :
 
-``**ext
+```text
 0.5
 1
 2
-*
+3
 4
 ```
 
 ---
 
-## Hyp*thèse 3 – Électricité
+## Hypothèse 3 – Électricité
 
-Facteur d*émission utilisé :
+Facteur d'émission utilisé (cas Suisse):
 
 ```text
-90 gCO**kWh
+90 gCO2 / kWh
 ```
 
-Rendement*global :
+Rendement global :
 
 ```text
 50 %
 ```
 
-D*où :
+D'où :
 
 ```text
-180 gCO₂/k*h utile
+180 gCO₂/kWh utile
 ```
 
 ---
 
-## Hyp*thèse 4 – Transport
+## Hypothèse 4 – Transport
 
-Vale*rs d'ordre de grandeur :
+Valeurs d'ordre de grandeur :
 
-###*SKF 6307
+### SKF 6307
 
 ```text
-40 g*O₂
+92 gCO₂
 ```
 
-### SKF NU2206*
+### SKF NU2206 ECP
 ```text
 30 gCO₂
-``*
+```
 
 ---
 
-## Hypothèse 5 – Fin de vie*
-Act*ellement :
-
-```text
-0 gCO₂
-*``
-
-Le recyclage de l'acier n'est *as explicitement valorisé.
-
----
-
-#* Hypothèse 6 – Maintenance
-
-Act*ellement :
+## Hypothèse 5 – Fin de vie
+Actuellement :
 
 ```text
 0 gCO₂
 ```
 
-Un**valeur indicative de :
+Le recyclage de l'acier n'est pas explicitement valorisé.
+
+---
+
+## Hypothèse 6 – Maintenance
+
+Actuellement :
 
 ```text
-*0 gCO₂
+0 gCO₂
 ```
 
-par relubrification pe*t être utilisée lors*de futures études.
+Une valeur indicative de :
+
+```text
+10 gCO₂
+```
+
+par relubrification peut être utilisée lors de futures études.
 
 ---
 
@@ -351,189 +347,190 @@ par relubrification pe*t être utilisée lors*de futures études.
 
 Modifier :
 
-```*ext
+```text
 vehicle.json
-*``
+```
 
 Exemple :
 
 ```json
 {
- *"wheel_radius_m": 0.253,
-* "vehicle_avg_speed_kmh": 30*
-  "vehicle_max_speed_kmh": *0,
-  "electricity_co2_g_per_kwh": *0,
-* "grid_to*wheel_efficiency": 0.5,
-* "vehicle_lifetime_km": 100*000
+  "wheel_radius_m": 0.253,
+  "vehicle_avg_speed_kmh": 30,
+  "vehicle_max_speed_kmh": 80,
+  "electricity_co2_g_per_kwh": 90,
+  "grid_to_wheel_efficiency": 0.5,
+  "vehicle_lifetime_km": 1000000
 }
 ```
 
 ---
 
-# Configuration d*un roulement
+# Configuration d'un roulement
 
 Exemple :
 
 ```json
-{*  "name": "SKF 6307*2RS1",
+{ 
+  "name": "SKF 6307-2RS1",
 
-  "position": "*ear",
+  "position": "rear",
 
-  "quantity": *,
+  "quantity": 1,
 
-  "mass_kg": 0*458,
+  "mass_kg": 0.458,
 
-  "bearing_type": "ball*,
+  "bearing_type": "ball",
 
   "supports_axial_load": true,
-*  "f*": 13.1*
+  
+  "f0": 13.1,
 
-  "dynamic_capacity_N": 49300*
+  "dynamic_capacity_N": 49300,
 
   "static_capacity_N*: 19000,
 
- *"speed_limit_rpm": 10000,
+  "speed_limit_rpm": 10000,
 
-  "manu*acturing_co2_g": 1700,
+  "manufacturing_co2_g": 1700,
 
-  "distrib*tion_co2_g": 40,
+  "distribution_co2_g": 92,
 
-  "end_of_life_c*2_g": 0,
+  "end_of_life_co2_g": 20,
 
-  "maintenance_co2_g": 0*
+  "maintenance_co2_g": 0,
 
-  "maintenance_interval_rev": nu*l,
+  "maintenance_interval_rev": null,
 
-  "friction_file": "./friction*SKF_6307_2RS1.xlsx",
+  "friction_file": "./friction_SKF_6307_2RS1.xlsx",
 
-  "loads_fil*": "./loads/SKF_6307_2RS1_loads.js*n"
+  "loads_file": "./loads/SKF_6307_2RS1_loads.json"
 }
 ```
 
 ---
 
-# Ajouter un nouvea* roulement
+# Ajouter un nouveau roulement
 
 ## Étape 1
 
-Créer :
+Créer un fichier json selon l'exemple ci-dessus':
 
-`*`text
-bearings/NouveauRoulement.js*n
+```text
+bearings/NouveauRoulement.json
 ```
 
 ---
 
-## Ét*pe 2
+## Étape 2
 
 Créer :
 
 ```text
-fr*ction/NouveauRoulement.xlsx
+friction/NouveauRoulement.xlsx
 ```
 
-a*ec*les colonnes :
+avec les colonnes :
 
 ```text
-Force Radi*le*[N]
+Force Radiale [N]
 Force Axiale [N]
-200*RPM
+200 RPM
 315 RPM
 ...
 ```
 
 ---
 
-## Étape*3
+## Étape 3
 
 Créer :
 
-```*ext
-loads/NouveauRoulement_loads.j*on
-``*
+```text
+loads/NouveauRoulement_loads.json
+```
 
 ---
 
 ## Étape 4
 
-Ajouter son*nom dans :
+Ajouter son nom dans :
 
 ```python
-SELECTED_BEA**NGS
+SELECTED_BEARINGS
 ```
 
-Le*programme le prendra automatiqueme*t*en compte.
+Le programme le prendra automatiquement en compte.
 
 ---
 
-# Graphiques disp*nibles
+# Graphiques disponibles
 
-Les graphi*ues sont activés via les interrupt*urs :
+Les graphiques sont activés via les interrupteurs au début du code:
 
 ```python
 SHOW_FRICTION
-SHO*_ALPHA_SENSITIVITY
-SHOW_CO2_EV*LUTION
+SHOW_ALPHA_SENSITIVITY
+SHOW_CO2_EVOLUTION
 SHOW_OPTIMIZATION
-SHOW_AVER*GE_CO2
+SHOW_AVERAGE_CO2
 ```
 
 ---
 
-# Paramètres de c*lcul
+# Paramètres de calcul
 
 ## Roulements analysés
 
-```*ython
-SELECTED_B*ARINGS
+```python
+SELECTED_BEARINGS
 ```
 
 ---
 
-## Sensibilité su* α
+## Sensibilité sur α
 
 ```python
 ALPHA_VALUES
 ```
 
---*
+---
 
 ## Sensibilité sur β
 
 ```python
-*ETA_VALUES
+BETA_VALUES
 ```
 
 ---
 
-## Rés*lution numérique
+## Résolution numérique
 
 ```python
-*_INTEGRATION_POINTS
+N_INTEGRATION_POINTS
 ```
 
-Aug*enter cette valeur améliore la pré*ision*mais augmente le temps de*calcul.
+Augmenter cette valeur améliore la précision mais augmente le temps de calcul.
 
 ---
 
-# Résultats*obtenus
+# Résultats obtenus
 
-Les simulations réalisées*montrent :
+Les simulations réalisées montrent :
 
--*des durées de vie L10*largement supérieures à la durée d**vie du*véhicule*;
-- une forte influence*du paramètre α*;
-- une influence plus modérée mai* significative du param*tre β ;
-- un remplacement optimal*dépendant principalement de l'hypo*hèse d*usure retenue ;
-- dans le cas nomi*al, le remplacement préventif n'es* généralement*pas nécessaire avant la fin de*vie du véhicule.
+- des durées de vie L10 largement supérieures à la durée de vie du véhicule ;
+- une forte influence du paramètre α ;
+- une influence plus modérée mais significative du paramètre β ;
+- un remplacement optimal dépendant principalement de l'hypothèse d'usure retenue ;
+- dans le cas nominal, le remplacement préventif n'est généralement pas nécessaire avant la fin de vie du véhicule.
 
 ---
 
-# Améliorat*ons futures
+# Améliorations futures
 
-- ajout d'une interfa*e utilisateur console ;
-- ajout d'*ne interface graphique ;
-- prise e* compte détaillée de la relubrific*tion ;
-- prise en compte du recycl*ge des matériaux ;
-- ajout d'autre* familles de roulements ;
-- intégr*tion dans un futur Digital Twin MU*O.
->>>>>>> c2f13c4 (First Release)
+- ajout d'une interface utilisateur console ;
+- ajout d'une interface graphique ;
+- prise en compte détaillée de la relubrification ;
+- prise en compte du recyclage des matériaux ;
+- ajout d'autres familles de roulements ;
+- intégration dans un futur Digital Twin MULO.
