@@ -1,6 +1,6 @@
 # Objectif du projet
 
-Ce programme a été développé dans le cadre de l'étude environnementale du véhicule MULO.
+Ce programme a été développé dans le cadre de l'étude environnementale du véhicule MULO réalisé à la HEIG-VD.
 
 L'objectif est de déterminer à quel intervalle il est pertinent de remplacer un roulement afin de minimiser les émissions de CO₂ équivalent associées à son utilisation.
 
