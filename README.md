@@ -110,7 +110,7 @@ Pour les roulements supportant les efforts axiaux :
 
 ```text
 P = Fr
-
+```
 
 si :
 
@@ -140,6 +140,7 @@ en fonction du paramètre SKF :
 
 ```text
 f0·Fa/C0
+```
 
 La durée de vie nominale est calculée selon :
 
@@ -150,6 +151,7 @@ L10=(C/P)^p·10^6
 avec :
 
 ### Roulements à billes
+
 ```text
 p = 3
 ```
@@ -204,7 +206,8 @@ USAGE_PROFILE = {
 La somme des poids doit être égale à :
 
 ```text
-1.0 ```
+1.0 
+```
 
 ---
 
