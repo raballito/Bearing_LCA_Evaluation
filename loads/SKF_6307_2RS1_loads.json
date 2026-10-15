@@ -1,0 +1,19 @@
+{
+"roulage": {
+"Fx_N": 0,
+"Fy_N": 0,
+"Fz_N": 2378
+},
+
+"acceleration_max": {
+"Fx_N": 1709,
+"Fy_N": -1339,
+"Fz_N": 2378
+},
+
+"freinage_max": {
+"Fx_N": -1709,
+"Fy_N": -1339,
+"Fz_N": 2378
+}
+}

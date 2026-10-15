@@ -1,0 +1,110 @@
+Chargement des données du véhicule:
+Rayon des roues : 0.253 [m]
+Vitesse max : 80 [km/h]
+Vitesse moyenne : 30 [km/h]
+Profile de déplacement utilisé : {'roulage': 0.7, 'acceleration_max': 0.15, 'freinage_max': 0.15}
+
+Chargement des données du roulement SKF 6307-2RS1
+Fichier de données : friction_data/SKF_6307_2RS1.xlsx
+
+Chargement des données du roulement SKF NU 2206 ECP
+Fichier de données : friction_data/SKF_NU_2206_ECP.xlsx
+
+Roulements sélectionnés : ['SKF 6307-2RS1', 'SKF NU 2206 ECP']
+
+============================================================
+SKF 6307-2RS1
+============================================================
+
+[CARACTERISTIQUES]
+Masse               : 0.458 kg
+Capacité dynamique  : 35,100 N
+Capacité statique   : 19,000 N
+CO2 fabrication     : 1700 g
+
+[FROTTEMENT]
+Couple moyen        : 0.249 N.m
+Energie/km          : 984 J
+CO2/km              : 0.049 g
+
+[DUREE DE VIE]
+
+P moyen             : 2789 N
+L10                 : 3,169,137 km
+Utilisation MULO    : 31.55%
+
+[USURE - AUGMENTATION DU COUPLE]
+       0 km -> 0.2489 N.m
+ 250,000 km -> 0.2497 N.m
+ 500,000 km -> 0.2520 N.m
+ 750,000 km -> 0.2559 N.m
+1,000,000 km -> 0.2613 N.m
+
+[ACV - SCENARIOS DE REMPLACEMENT]
+  25,000 km -> 0.1217 g/km
+ 100,000 km -> 0.0673 g/km
+ 300,000 km -> 0.0565 g/km
+ 500,000 km -> 0.0530 g/km
+ 800,000 km -> 0.0532 g/km
+1,000,000 km -> 0.0518 g/km
+
+[ACV - OPTIMISATION DES CHANGEMENTS]
+[Cas basique : alpha = 0.5 - SKF 6307-2RS1]
+Distance optimale : 1,000,000 [km]
+CO₂ minimal : 0.0518 [g/km]
+
+[Etude de sensibilité sur alpha]
+alpha= 0.5 -> optimum = 1,000,000 km | CO2 = 0.0518 g/km
+alpha=   2 -> optimum = 500,040 km | CO2 = 0.0536 g/km
+alpha=   5 -> optimum = 500,040 km | CO2 = 0.0549 g/km
+alpha=  10 -> optimum = 333,387 km | CO2 = 0.0564 g/km
+alpha=  20 -> optimum = 333,387 km | CO2 = 0.0583 g/km
+
+
+============================================================
+SKF NU 2206 ECP
+============================================================
+
+[CARACTERISTIQUES]
+Masse               : 0.257 kg
+Capacité dynamique  : 55,000 N
+Capacité statique   : 49,000 N
+CO2 fabrication     : 950 g
+
+[FROTTEMENT]
+Couple moyen        : 0.139 N.m
+Energie/km          : 550 J
+CO2/km              : 0.028 g
+
+[DUREE DE VIE]
+
+P moyen             : 3267 N
+L10                 : 19,435,122 km
+Utilisation MULO    : 5.15%
+
+[USURE - AUGMENTATION DU COUPLE]
+       0 km -> 0.1392 N.m
+ 250,000 km -> 0.1392 N.m
+ 500,000 km -> 0.1392 N.m
+ 750,000 km -> 0.1393 N.m
+1,000,000 km -> 0.1394 N.m
+
+[ACV - SCENARIOS DE REMPLACEMENT]
+  25,000 km -> 0.0680 g/km
+ 100,000 km -> 0.0376 g/km
+ 300,000 km -> 0.0316 g/km
+ 500,000 km -> 0.0295 g/km
+ 800,000 km -> 0.0295 g/km
+1,000,000 km -> 0.0285 g/km
+
+[ACV - OPTIMISATION DES CHANGEMENTS]
+[Cas basique : alpha = 0.5 - SKF NU 2206 ECP]
+Distance optimale : 1,000,000 [km]
+CO₂ minimal : 0.0285 [g/km]
+
+[Etude de sensibilité sur alpha]
+alpha= 0.5 -> optimum = 1,000,000 km | CO2 = 0.0285 g/km
+alpha=   2 -> optimum = 1,000,000 km | CO2 = 0.0286 g/km
+alpha=   5 -> optimum = 1,000,000 km | CO2 = 0.0286 g/km
+alpha=  10 -> optimum = 1,000,000 km | CO2 = 0.0288 g/km
+alpha=  20 -> optimum = 1,000,000 km | CO2 = 0.0290 g/km

@@ -1,0 +1,19 @@
+{
+    "name": "SKF NU 2206 ECP",
+    "position": "roue arrière",
+    "quantity": 1,
+    "mass_kg": 0.257,
+    "f0": 1,
+    "supports_axial_load": false,
+    "dynamic_capacity_N": 55000,
+    "static_capacity_N": 49000,
+    "speed_limit_rpm" : 14000,
+    "manufacturing_co2_g": 950,
+    "distribution_co2_g": 51,
+    "end_of_life_co2_g": 11,
+    "maintenance_co2_g": 10,
+    "maintenance_interval_rev": null,
+    "bearing_type": "roller",
+    "friction_file": "friction_data/SKF_NU_2206_ECP.xlsx",
+    "loads_file": "./loads/SKF_NU_2206_ECP_loads.json"
+}

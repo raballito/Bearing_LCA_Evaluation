@@ -1,0 +1,19 @@
+{
+    "name": "SKF 6307-2RS1",
+    "position": "roue arrière",
+    "quantity": 1,
+    "mass_kg": 0.458,
+    "f0": 13.1,
+    "supports_axial_load": true,
+    "dynamic_capacity_N": 35100,
+    "static_capacity_N": 19000,
+    "speed_limit_rpm" : 6000,
+    "manufacturing_co2_g": 1700,
+    "distribution_co2_g": 92,
+    "end_of_life_co2_g": 20,
+    "maintenance_co2_g": 0,
+    "maintenance_interval_rev": null,
+    "bearing_type": "ball",
+    "friction_file": "friction_data/SKF_6307_2RS1.xlsx",
+    "loads_file": "./loads/SKF_6307_2RS1_loads.json"
+}
