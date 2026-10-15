@@ -84,6 +84,7 @@ Le couple de frottement est obtenu à partir :
 
 ```text
 friction/*.xlsx
+```
 
 Les données proviennent du calculateur SKF.
 
@@ -101,7 +102,7 @@ Le modèle retourne :
 Moment de frottement [N.m]
 ```
 
-*--
+---
 
 ## 3. Charge dynamique équivalente SKF
 
