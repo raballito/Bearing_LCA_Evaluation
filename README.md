@@ -174,7 +174,7 @@ Le résultat est obtenu en :
 Le modèle utilise la loi :
 
 ```math
-M =*M0·(1 + α*(N/L10)^β)
+M = M0·(1 + α·(N/L10)^β)
 ```
 
 Avec :
@@ -218,7 +218,7 @@ Aucune loi de vieillissement spécifique au roulement n'a été identifiée dans
 Le vieillissement est donc représenté par :
 
 ```math
-M =*M0·(1 + α·(N*L10)^β)
+M = M0·(1 + α·(N/L10)^β)
 ```
 
 ### α
