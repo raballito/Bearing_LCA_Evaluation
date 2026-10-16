@@ -583,15 +583,13 @@ def print_bearing_optimization(bearing, analysis_result):
     for beta, result in beta_results.items():
         print(f"beta ={beta:>4} -> optimum = {result['optimal_km']:,.0f} km | CO2 = {result['optimal_co2']:.4f} [g/km]")
 
-selected_bearings = [bearing for bearing in bearings if bearing.name in SELECTED_BEARINGS]
-
-
-print("\nDébut des calculs. Veuillez patienter...")   
+selected_bearings = [bearing for bearing in bearings if bearing.name in SELECTED_BEARINGS]  
 
 if SHOW_CONSOLE_RESULTS:
     for bearing in selected_bearings:
         print_bearing_summary(bearing)
         if OPTIMIZATION:
+            print("Début des calculs d'optimisation. Veuillez patienter...")
             analysis_results[bearing.name] = {"optimization": compute_optimization(bearing), "alpha_sensitivity": compute_alpha_sensitivity(bearing), "beta_sensitivity": compute_beta_sensitivity(bearing)}
             print_bearing_optimization(bearing, analysis_results[bearing.name])
 
