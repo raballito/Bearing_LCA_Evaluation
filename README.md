@@ -492,6 +492,13 @@ SHOW_AVERAGE_CO2
 ---
 
 # Paramètres de calcul
+Quelques paramètres peuvent être configurés par l'utilisateur dans la partie du code suivante : 
+
+```python
+# ============================================================
+# 2. PARAMETRES D'ETUDE - OPTIONS UTILISATEUR
+# ============================================================
+```
 
 ## Roulements analysés
 Les roulements à analyser sont contenus dans la liste :
