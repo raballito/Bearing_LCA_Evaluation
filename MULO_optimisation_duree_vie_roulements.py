@@ -32,7 +32,7 @@ SELECTED_BEARINGS = [
 ]
 
 ALPHA_VALUES = [0.5, 2, 5, 10, 20]
-BETA_VALUES = [0.5, 1, 2, 3, 4]
+BETA_VALUES = [0.5, 1, 2, 4]
 
 N_INTEGRATION_POINTS = 500
 
@@ -45,12 +45,14 @@ USAGE_PROFILE = {
 SHOW_CONSOLE_RESULTS = True
 SHOW_GRAPHICAL_RESULTS = True
 
+ALPHA_SENSITIVITY = True
+BETA_SENSITIVITY = True
+OPTIMIZATION = True
+
 SHOW_FRICTION = True
 SHOW_AVERAGE_CO2 = True
-SHOW_ALPHA_SENSITIVITY = True
-SHOW_BETA_SENSITIVITY = True
 SHOW_CO2_EVOLUTION = True
-SHOW_OPTIMIZATION = True
+
 
 # ============================================================
 # 3. IMPORTATION DES PARAMÈTRES GÉNÉRAUX DU PROJET
@@ -96,7 +98,6 @@ vehicle = load_config()
 # ============================================================
 # Affichage config véhicule
 # ============================================================
-
 
 print("Chargement des données du véhicule:")
 print(f"Rayon des roues : {vehicle.wheel_radius_m} [m]")
@@ -420,7 +421,6 @@ def energy_to_co2(energy_J):
 def friction_co2_over_life(bearing, replacement_km, alpha=0.5, beta=2):
     km_values = np.linspace(0, replacement_km, N_INTEGRATION_POINTS)
     co2_per_km_values = []
-
     for km in km_values:
         rev = km_to_revolutions(km)
         M = bearing.get_worn_mean_torque(USAGE_PROFILE, vehicle.wheel_rpm_avg, rev, alpha=alpha, beta=beta)
@@ -563,7 +563,7 @@ def print_bearing_optimization(bearing, analysis_result):
     print(f"CO2 minimal : {optimization['optimal_co2']:.4f} [g/km]")
     
     # --------------------------------------------------
-    # ACV - Sensibilité sur alpha
+    # ACV - Sensibilité sur alpha - Beta = 2
     # --------------------------------------------------
     
     print("\n[SENSIBILITE ALPHA - BETA = 2]")
@@ -572,7 +572,7 @@ def print_bearing_optimization(bearing, analysis_result):
         print(f"alpha ={alpha:>4} -> optimum = {result['optimal_km']:,.0f} km | CO2 = {result['optimal_co2']:.4f} [g/km]")
         
     # --------------------------------------------------
-    # ACV - Sensibilité sur beta
+    # ACV - Sensibilité sur beta - Alpha = 10
     # --------------------------------------------------
     
     print("\n[SENSIBILITE BETA - ALPHA = 10]")
@@ -588,7 +588,7 @@ print("\nDébut des calculs. Veuillez patienter...")
 if SHOW_CONSOLE_RESULTS:
     for bearing in selected_bearings:
         print_bearing_summary(bearing)
-        if SHOW_OPTIMIZATION:
+        if OPTIMIZATION:
             analysis_results[bearing.name] = {"optimization": compute_optimization(bearing), "alpha_sensitivity": compute_alpha_sensitivity(bearing), "beta_sensitivity": compute_beta_sensitivity(bearing)}
             print_bearing_optimization(bearing, analysis_results[bearing.name])
 
@@ -596,7 +596,7 @@ if SHOW_CONSOLE_RESULTS:
 # 14. AFFICHAGE DES RESULTATS GRAPHIQUES
 # ------------------------------------------------------------
 # ------------------------------------------------------------
-# Evolution du frottement
+# Evolution du frottement - cas standard
 # ------------------------------------------------------------
 
 def plot_friction_evolution(bearing):
@@ -608,7 +608,7 @@ def plot_friction_evolution(bearing):
         torques.append(M)
         
     plt.figure()
-    plt.plot(km_values,torques,label="Couple de frottement - α=0.5")
+    plt.plot(km_values,torques,label="Couple de frottement - α=0.5, β=2")
     plt.xlabel("Distance parcourue [km]")
     plt.ylabel("Couple de frottement moyen [N.m]")
     plt.title(f"Evolution du frottement - {bearing.name}")
@@ -632,7 +632,7 @@ def plot_torque_alpha_sensitivity(bearing):
         plt.plot(km_values, torques, label=f"α={alpha}")
     plt.xlabel("Distance parcourue [km]")
     plt.ylabel("Couple de frottement moyen [N.m]")
-    plt.title(f"Influence du coefficient d'usure - {bearing.name}")
+    plt.title(f"Influence de l'amplitude d'usure - {bearing.name}")
     plt.legend()
     plt.show()
     
@@ -653,15 +653,15 @@ def plot_torque_beta_sensitivity(bearing):
         plt.plot(km_values, torques, label=f"β={beta}")
     plt.xlabel("Distance parcourue [km]")
     plt.ylabel("Couple de frottement moyen [N.m]")
-    plt.title(f"Influence de la vitesse d'usure - {bearing.name}")
+    plt.title(f"Influence de la cinématique d'usure - {bearing.name}")
     plt.legend()
     plt.show()
     
 # ------------------------------------------------------------
-# Évolution du CO2 de frottement
+# Évolution du CO2 de frottement en fonction de alpha
 # ------------------------------------------------------------
 
-def plot_CO2_evolution(bearing):
+def plot_CO2_alpha_evolution(bearing):
     km_values = np.linspace(0, vehicle.vehicle_lifetime_km, N_INTEGRATION_POINTS)
     plt.figure()
     for alpha in ALPHA_VALUES:
@@ -675,7 +675,29 @@ def plot_CO2_evolution(bearing):
         plt.plot(km_values, co2_values, label=f"α={alpha}")
     plt.xlabel("Distance parcourue [km]")
     plt.ylabel("CO₂ dû au frottement [g/km]")
-    plt.title(f"Evolution du CO₂ de frottement - {bearing.name}")
+    plt.title(f"Evolution du CO₂ de frottement (α) - {bearing.name}")
+    plt.legend()
+    plt.show()
+
+# ------------------------------------------------------------
+# Évolution du CO2 de frottement en fonction de beta
+# ------------------------------------------------------------
+
+def plot_CO2_beta_evolution(bearing):
+    km_values = np.linspace(0, vehicle.vehicle_lifetime_km, N_INTEGRATION_POINTS)
+    plt.figure()
+    for beta in BETA_VALUES:
+        co2_values = []
+        for km in km_values:
+            rev = km_to_revolutions(km)
+            M = bearing.get_worn_mean_torque(USAGE_PROFILE, vehicle.wheel_rpm_avg, rev, beta=beta)
+            E_km = energy_per_km(M)
+            co2_km = energy_to_co2(E_km)
+            co2_values.append(co2_km)
+        plt.plot(km_values, co2_values, label=f"β={beta}")
+    plt.xlabel("Distance parcourue [km]")
+    plt.ylabel("CO₂ dû au frottement [g/km]")
+    plt.title(f"Evolution du CO₂ de frottement (β) - {bearing.name}")
     plt.legend()
     plt.show()
 
@@ -709,7 +731,7 @@ def plot_replacement_alpha_sensitivity(bearing, alpha_results):
         #plt.scatter(result["optimal_km"], result["optimal_co2"], marker="o")
     plt.xlabel("Distance de remplacement [km]")
     plt.ylabel("CO₂ total [g/km]")
-    plt.title(f"Sensibilité à l'usure - {bearing.name}")
+    plt.title(f"Sensibilité à l'usure (β=2) - {bearing.name}")
     plt.grid(True)
     plt.legend()
     plt.show()
@@ -726,7 +748,7 @@ def plot_replacement_beta_sensitivity(bearing, beta_results):
         #plt.scatter(result["optimal_km"], result["optimal_co2"], marker="o")
     plt.xlabel("Distance de remplacement [km]")
     plt.ylabel("CO₂ total [g/km]")
-    plt.title(f"Sensibilité à l'usure - {bearing.name}")
+    plt.title(f"Sensibilité à l'usure (α=10) - {bearing.name}")
     plt.grid(True)
     plt.legend()
     plt.show()
@@ -736,7 +758,7 @@ def plot_replacement_beta_sensitivity(bearing, beta_results):
 # ------------------------------------------------------------
 
 def plot_average_co2_vehicle_life(bearing):
-    replacement_scenarios = [100000, 300000, 500000, 1000000]
+    replacement_scenarios = [(vehicle.vehicle_lifetime_km/10), (vehicle.vehicle_lifetime_km/5), (vehicle.vehicle_lifetime_km/3), (vehicle.vehicle_lifetime_km/2), (vehicle.vehicle_lifetime_km)]
     plt.figure()
     for replacement_km in replacement_scenarios:
         km_values, co2_values = (average_co2_vehicle_life(bearing, replacement_km=replacement_km))
@@ -752,17 +774,20 @@ if SHOW_GRAPHICAL_RESULTS:
     for bearing in selected_bearings:
         if SHOW_FRICTION:
             plot_friction_evolution(bearing)
-        if SHOW_ALPHA_SENSITIVITY:
+        if ALPHA_SENSITIVITY:
             plot_torque_alpha_sensitivity(bearing)
-        if SHOW_BETA_SENSITIVITY:    
-            plot_torque_beta_sensitivity
+        if BETA_SENSITIVITY:    
+            plot_torque_beta_sensitivity(bearing)
         if SHOW_AVERAGE_CO2:
             plot_average_co2_vehicle_life(bearing)
-        if SHOW_CO2_EVOLUTION and SHOW_ALPHA_SENSITIVITY:
-            plot_CO2_evolution(bearing)
-        if SHOW_OPTIMIZATION:
+        if SHOW_CO2_EVOLUTION:
+            if ALPHA_SENSITIVITY:
+                plot_CO2_alpha_evolution(bearing)
+            if BETA_SENSITIVITY:
+                plot_CO2_beta_evolution(bearing)
+        if OPTIMIZATION:
             plot_bearing_replacement(bearing, analysis_results[bearing.name]["optimization"])
-            if SHOW_ALPHA_SENSITIVITY:
+            if ALPHA_SENSITIVITY:
                 plot_replacement_alpha_sensitivity(bearing, analysis_results[bearing.name]["alpha_sensitivity"])
-            if SHOW_BETA_SENSITIVITY:
+            if BETA_SENSITIVITY:
                 plot_replacement_beta_sensitivity(bearing, analysis_results[bearing.name]["beta_sensitivity"])

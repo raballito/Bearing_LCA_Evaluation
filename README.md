@@ -268,7 +268,6 @@ Valeurs étudiées :
 0.5
 1
 2
-3
 4
 ```
 
@@ -520,6 +519,14 @@ ALPHA_VALUES
 
 ---
 
+## Sensibilité sur β
+
+```python
+BETA_VALUES
+```
+
+---
+
 ## Résolution numérique
 
 ```python
@@ -537,14 +544,16 @@ Pour activer / désactiver des parties de l'étude, les interrupteurs ci-dessous
 SHOW_CONSOLE_RESULTS = True
 SHOW_GRAPHICAL_RESULTS = True
 
+ALPHA_SENSITIVITY = True
+BETA_SENSITIVITY = True
+OPTIMIZATION = True
+
 SHOW_FRICTION = True
 SHOW_AVERAGE_CO2 = True
-SHOW_ALPHA_SENSITIVITY = True
 SHOW_CO2_EVOLUTION = True
-SHOW_OPTIMIZATION = True
 ```
 
-Les calculs d'optimisation peuvent prendre quelques minutes en fonction de la précision voulue et définie par la variable précédente.
+Les calculs d'optimisation peuvent prendre quelques minutes en fonction de la précision voulue et définie par la variable "N_INTEGRATION_POINTS".
 
 # Résultats obtenus
 
