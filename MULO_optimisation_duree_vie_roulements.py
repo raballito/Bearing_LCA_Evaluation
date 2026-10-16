@@ -36,6 +36,12 @@ BETA_VALUES = [0.5, 1, 2, 3, 4]
 
 N_INTEGRATION_POINTS = 500
 
+USAGE_PROFILE = {
+    "roulage": 0.70,                #70% du temps à vitesse constante
+    "acceleration_max": 0.15,       #15% d'accélération + chocs
+    "freinage_max": 0.15
+}
+
 SHOW_CONSOLE_RESULTS = True
 SHOW_GRAPHICAL_RESULTS = True
 
@@ -44,13 +50,6 @@ SHOW_AVERAGE_CO2 = True
 SHOW_ALPHA_SENSITIVITY = True
 SHOW_CO2_EVOLUTION = True
 SHOW_OPTIMIZATION = True
-
-USAGE_PROFILE = {
-    "roulage": 0.70,                #70% du temps à vitesse constante
-    "acceleration_max": 0.15,       #15% d'accélération + chocs
-    "freinage_max": 0.15,
-}
-
 
 # ============================================================
 # 3. IMPORTATION DES PARAMÈTRES GÉNÉRAUX DU PROJET

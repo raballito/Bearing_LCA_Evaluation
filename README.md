@@ -206,7 +206,7 @@ USAGE_PROFILE = {
 La somme des poids doit être égale à :
 
 ```text
-1.0 
+1.0 (100%)
 ```
 
 ---
@@ -457,7 +457,7 @@ Ces colonnes sont remplies à l'aide du calculateur SKF qui donnes ces valeurs.
 
 ## Étape 3
 
-Créer avec les 3 situations "roulage", "acceleration_max" et "freinage_max" :
+Créer avec les 3 situations "roulage", "acceleration_max" et "freinage_max" avec les forces en présence dans les 3 cas :
 
 ```text
 loads/NouveauRoulement_loads.json
@@ -494,7 +494,7 @@ SHOW_AVERAGE_CO2
 # Paramètres de calcul
 
 ## Roulements analysés
-Les roulements analysés sont contenus dans la liste :
+Les roulements à analyser sont contenus dans la liste :
 
 ```python
 SELECTED_BEARINGS
@@ -522,6 +522,22 @@ N_INTEGRATION_POINTS
 Augmenter cette valeur améliore la précision mais augmente le temps de calcul.
 
 ---
+
+## Interrupteurs
+Pour activer / désactiver des parties de l'étude, les interrupteurs ci-dessous peuvent être modifiés : 
+
+```python
+SHOW_CONSOLE_RESULTS = True
+SHOW_GRAPHICAL_RESULTS = True
+
+SHOW_FRICTION = True
+SHOW_AVERAGE_CO2 = True
+SHOW_ALPHA_SENSITIVITY = True
+SHOW_CO2_EVOLUTION = True
+SHOW_OPTIMIZATION = True
+```
+
+Les calculs d'optimisation peuvent prendre quelques minutes en fonction de la précision voulue et définie par la variable précédente.
 
 # Résultats obtenus
 
