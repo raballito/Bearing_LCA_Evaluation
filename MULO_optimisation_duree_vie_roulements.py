@@ -37,8 +37,8 @@ BETA_VALUES = [0.5, 1, 2, 4]
 N_INTEGRATION_POINTS = 500
 
 USAGE_PROFILE = {
-    "roulage": 0.70,                #70% du temps à vitesse constante
-    "acceleration_max": 0.15,       #15% d'accélération + chocs
+    "roulage": 0.70,
+    "acceleration_max": 0.15,
     "freinage_max": 0.15
 }
 
@@ -91,6 +91,7 @@ class VehicleConfig:
 def load_config(filename="vehicle.json"):
     with open(filename, "r") as f:
         data = json.load(f)
+        
     return VehicleConfig(**data)
 
 vehicle = load_config()
@@ -115,9 +116,8 @@ class FrictionModel:
     torque_interp: object = None
     
     def load_data(self):
-        data = pd.read_excel(
-            self.friction_file,
-            header=0)
+        data = pd.read_excel(self.friction_file, header=0)
+        
         return data
     
     def build_interpolator(self):
@@ -132,13 +132,13 @@ class FrictionModel:
             for j, fa in enumerate(fa_values):
                 row = friction_data[(friction_data["Force Radiale [N]"] == fr) & (friction_data["Force Axiale [N]"] == fa)]
                 torque_grid[i, j, :] = (row[rpm_columns].values[0])
-
         self.torque_interp = (RegularGridInterpolator((fr_values, fa_values, rpm_values), torque_grid, bounds_error=True, fill_value=None))
         
     def get_torque(self, fr, fa, rpm):
         if self.torque_interp is None:            
             raise RuntimeError("Interpolator not initialized")
-        torque_nmm = float(self.torque_interp([[fr, fa, rpm]])[0])            
+        torque_nmm = float(self.torque_interp([[fr, fa, rpm]])[0])         
+        
         return torque_nmm / 1000
     
 # ============================================================
@@ -153,11 +153,7 @@ class LoadModel:
     
     def load(self):
         try:
-            with open(
-                self.loads_file,
-                "r",
-                encoding="utf-8"
-            ) as f:
+            with open(self.loads_file, "r", encoding="utf-8") as f:
                 self.loads = json.load(f)
         except json.JSONDecodeError as e:
             print(f"Erreur JSON dans {self.loads_file}")
@@ -277,6 +273,7 @@ class Bearing:
     
     def get_torque_for_case(self, case_name, rpm):
         case = self.load_model.get_case(case_name)
+        
         return self.get_torque(case["Fr_N"], case["Fa_N"], rpm)
     
     def get_mean_torque(self, usage_profile, rpm):
@@ -287,6 +284,7 @@ class Bearing:
             M_case = self.get_torque_for_case(case_name, rpm)
             M_mean += weight * M_case
         self.mean_torque_cache = M_mean
+        
         return M_mean
     
     # --------------------------------------------------------
@@ -305,6 +303,7 @@ class Bearing:
         e, X, Y = (self.skf_factors.get_factors(ratio))
         if Fa / Fr <= e:
             return Fr
+        
         return (X*Fr + Y*Fa)
     
     def equivalent_dynamic_load_mean(self, usage_profile):
@@ -312,11 +311,13 @@ class Bearing:
         for case_name, weight in usage_profile.items():
             P_case = self.equivalent_dynamic_load(case_name)
             P_mean += weight * P_case
+            
         return P_mean
     
     def calculate_L10(self, case_name="roulage"):
         P = self.equivalent_dynamic_load(case_name)
         p = self.life_exponent
+        
         return ((self.dynamic_capacity_N / P)** p * 1e6)
     
     def calculate_L10_mean(self, usage_profile):
@@ -324,10 +325,12 @@ class Bearing:
             return self.L10_mean_cache
         P = self.equivalent_dynamic_load_mean(usage_profile)
         self.L10_mean_cache = ((self.dynamic_capacity_N / P) ** self.life_exponent * 1e6)
+        
         return self.L10_mean_cache
     
     def calculate_L10_km(self, case_name="roulage"):
         L10_rev = self.calculate_L10(case_name)
+        
         return revolutions_to_km(L10_rev)
     
     def calculate_L10_mean_km(self, usage_profile):
@@ -339,10 +342,12 @@ class Bearing:
     
     def wear_factor(self, revolutions, usage_profile, alpha=0.5, beta=2):
         L10 = self.calculate_L10_mean(usage_profile)
+        
         return (1 + alpha * (revolutions / L10) ** beta)
     
     def get_worn_mean_torque(self, usage_profile, rpm, revolutions, alpha=0.5, beta=2):
         M_mean = self.get_mean_torque(usage_profile, rpm)
+        
         return (M_mean * self.wear_factor(revolutions, usage_profile, alpha, beta))
             
     
@@ -370,15 +375,14 @@ class Bearing:
 def load_bearing(json_file):
     with open(json_file, "r") as f:
         data = json.load(f)
+        
     return Bearing(**data)
 
 bearing_folder = Path("bearings")
 bearings = []
 
 for file in bearing_folder.glob("*.json"):
-    bearings.append(
-        load_bearing(file)
-    )
+    bearings.append(load_bearing(file))
 
 print(f"\nRoulements sélectionnés : {SELECTED_BEARINGS}")
 for b in bearings:
@@ -391,12 +395,10 @@ for b in bearings:
 # ============================================================
 
 def revolutions_to_km(revolutions):
-    """Convertit des rotations de roue en kilomètres."""
     return np.asarray(revolutions) * vehicle.distance_per_rev_m / 1000
 
 
 def km_to_revolutions(distance_km):
-    """Convertit des kilomètres en rotations de roue."""
     return np.asarray(distance_km) * 1000 / vehicle.distance_per_rev_m
 
 
@@ -412,6 +414,7 @@ def energy_per_km(torque):
 
 def energy_to_co2(energy_J):
     energy_kWh = energy_J / 3.6e6
+    
     return energy_kWh * (vehicle.electricity_co2_g_per_kwh / vehicle.grid_to_wheel_efficiency)
 
 # ------------------------------------------------------------

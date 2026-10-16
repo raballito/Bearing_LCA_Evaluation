@@ -35,9 +35,9 @@ L'étude cherche à répondre à la question :
 ├── bearings/
 │   ├── SKF_6307_2RS1.json
 │   ├── SKF_NU2206_ECP.json
-│   └── SKF_Bearing_Coef.xlsx
+│   └── Bearing_Coef.xlsx
 │
-├── friction/
+├── friction_data/
 │   ├── SKF_6307_2RS1.xlsx
 │   └── SKF_NU2206_ECP.xlsx
 │
@@ -83,7 +83,7 @@ Fa = abs(Fy)
 Le couple de frottement est obtenu à partir :
 
 ```text
-friction/*.xlsx
+friction_data/*.xlsx
 ```
 
 Les données proviennent du calculateur SKF.
@@ -133,7 +133,7 @@ Les coefficients :
 sont interpolés depuis :
 
 ```text
-SKF_Bearing_Coef.xlsx
+Bearing_Coef.xlsx
 ```
 
 en fonction du paramètre SKF :
@@ -385,7 +385,7 @@ Exemple :
   "end_of_life_co2_g": 20,
   "maintenance_co2_g": 0,
   "maintenance_interval_rev": null,
-  "friction_file": "./friction_SKF_6307_2RS1.xlsx",
+  "friction_file": "friction_data/SKF_6307_2RS1.xlsx",
   "loads_file": "./loads/SKF_6307_2RS1_loads.json"
 }
 ```
@@ -437,7 +437,7 @@ bearings/NouveauRoulement.json
 Créer :
 
 ```text
-friction/NouveauRoulement.xlsx
+friction_data/NouveauRoulement.xlsx
 ```
 
 avec les colonnes :
@@ -476,19 +476,6 @@ Le programme le prendra automatiquement en compte.
 
 ---
 
-# Graphiques disponibles
-
-Les graphiques sont activés via les interrupteurs au début du code:
-
-```python
-SHOW_FRICTION
-SHOW_ALPHA_SENSITIVITY
-SHOW_CO2_EVOLUTION
-SHOW_OPTIMIZATION
-SHOW_AVERAGE_CO2
-```
-
----
 
 # Paramètres de calcul
 Quelques paramètres peuvent être configurés par l'utilisateur dans la partie du code suivante : 
