@@ -1,8 +1,0 @@
-{
-    "wheel_radius_m": 0.253,
-    "vehicle_avg_speed_kmh": 30,
-    "vehicle_max_speed_kmh": 80,
-    "electricity_co2_g_per_kwh": 90,
-    "grid_to_wheel_efficiency": 0.5,
-    "vehicle_lifetime_km": 1000000
-}
