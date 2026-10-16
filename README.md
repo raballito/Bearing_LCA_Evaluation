@@ -6,12 +6,12 @@ L'objectif est de déterminer à quel intervalle il est pertinent de remplacer u
 
 Le modèle tient compte :
 
-- des émissions liées à la fabrication du roulement ;
-- des émissions liées à son transport/distribution ;
-- des émissions liées à sa fin de vie ;
-- des émissions dues aux pertes énergétiques causées par le frottement ;
-- de l'augmentation de ces pertes avec l'usure ;
-- d'éventuelles opérations de maintenance (prévu dans le modèle mais non encore implémenté).
+- des émissions liées à la fabrication du roulement
+- des émissions liées à son transport/distribution
+- des émissions liées à sa fin de vie
+- des émissions dues aux pertes énergétiques causées par le frottement
+- de l'augmentation de ces pertes avec l'usure
+- d'éventuelles opérations de maintenance (prévu dans le modèle mais non encore implémenté)
 
 ---
 
@@ -550,19 +550,19 @@ Les calculs d'optimisation peuvent prendre quelques minutes en fonction de la pr
 
 Les simulations réalisées montrent :
 
-- des durées de vie L10 largement supérieures à la durée de vie du véhicule ;
-- une forte influence du paramètre α ;
-- une influence plus modérée mais significative du paramètre β ;
-- un remplacement optimal dépendant principalement de l'hypothèse d'usure retenue ;
-- dans le cas nominal, le remplacement préventif n'est généralement pas nécessaire avant la fin de vie du véhicule.
+- des durées de vie L10 largement supérieures à la durée de vie du véhicule
+- une forte influence du paramètre α
+- une influence plus modérée mais significative du paramètre β
+- un remplacement optimal dépendant principalement de l'hypothèse d'usure retenue
+- dans le cas nominal, le remplacement préventif n'est généralement pas nécessaire avant la fin de vie du véhicule
 
 ---
 
 # Améliorations futures
 
-- ajout d'une interface utilisateur console ;
-- ajout d'une interface graphique ;
-- prise en compte détaillée de la relubrification ;
-- prise en compte du recyclage des matériaux ;
-- ajout d'autres familles de roulements ;
-- intégration dans un futur Digital Twin MULO.
+- ajout d'une interface utilisateur console
+- ajout d'une interface graphique
+- prise en compte détaillée de la relubrification
+- prise en compte du recyclage des matériaux
+- ajout d'autres familles de roulements
+- intégration dans un futur Digital Twin MULO
