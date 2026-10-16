@@ -80,13 +80,13 @@ Fa = abs(Fy)
 
 ## 2. Modèle de frottement
 
-Le couple de frottement est obtenu à partir :
+Le couple de frottement est obtenu à partir des fichiers :
 
 ```text
 friction_data/*.xlsx
 ```
 
-Les données proviennent du calculateur SKF.
+Les données à l'intérieur proviennent du calculateur SKF.
 
 Une interpolation 3D est réalisée selon :
 
@@ -133,7 +133,7 @@ Les coefficients :
 sont interpolés depuis :
 
 ```text
-Bearing_Coef.xlsx
+bearings/Bearing_Coef.xlsx
 ```
 
 en fonction du paramètre SKF :
@@ -514,6 +514,14 @@ BETA_VALUES
 
 ---
 
+## Nombre de roulements à utiliser
+Pour simuler le nombre de changements de roulements sur la durée de vie, la variable suivante est utilisée :
+
+```python
+BEARINGS_COUNT
+```
+---
+
 ## Résolution numérique
 
 ```python
@@ -534,6 +542,7 @@ SHOW_GRAPHICAL_RESULTS = True
 ALPHA_SENSITIVITY = True
 BETA_SENSITIVITY = True
 OPTIMIZATION = True
+EXPORTATION = True
 
 SHOW_FRICTION = True
 SHOW_AVERAGE_CO2 = True
