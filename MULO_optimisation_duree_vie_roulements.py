@@ -25,6 +25,7 @@ plt.rcParams["figure.dpi"] = 110
 # ============================================================
 # 2. PARAMETRES D'ETUDE - OPTIONS
 # ============================================================
+
 SELECTED_BEARINGS = [
     "SKF 6307-2RS1",
     "SKF NU 2206 ECP"
@@ -331,6 +332,7 @@ class Bearing:
     # --------------------------------------------------------
     # Vieillissement des roulements
     # --------------------------------------------------------
+    
     def wear_factor(self, revolutions, usage_profile, alpha=0.5, beta=2):
         L10 = self.calculate_L10_mean(usage_profile)
         return (1 + alpha * (revolutions / L10) ** beta)
@@ -410,6 +412,7 @@ def energy_to_co2(energy_J):
 # ------------------------------------------------------------
 # 11. CALCULS ACV
 # ------------------------------------------------------------
+
 def friction_co2_over_life(bearing, replacement_km, alpha=0.5):
     km_values = np.linspace(0, replacement_km, N_INTEGRATION_POINTS)
     co2_per_km_values = []
@@ -439,12 +442,6 @@ def total_co2_per_km(bearing, replacement_km, alpha=0.5):
     co2_friction_total = (friction_co2_over_vehicle_life(bearing, replacement_km, alpha=alpha))
     co2_total = (co2_fixed_total  + co2_friction_total)
     
-    """
-    print(f"\nReplacement à {replacement_km} [km] : ")
-    print(f"n_bearings = {n_bearings}")
-    print(f"CO2 fixe = {co2_fixed_total:.0f}")
-    print(f"CO2 friction = {co2_friction_total:.0f}")
-    """
     return (co2_total / vehicle.vehicle_lifetime_km)
 
 def average_co2_vehicle_life(bearing, replacement_km, alpha=0.5):
@@ -470,6 +467,7 @@ def average_co2_vehicle_life(bearing, replacement_km, alpha=0.5):
 # ------------------------------------------------------------
 # 12. AFFICHAGE CONSOLE
 # ------------------------------------------------------------
+
 def print_bearing_summary(bearing):
     print()
     print("=" * 60)
@@ -479,6 +477,7 @@ def print_bearing_summary(bearing):
     # --------------------------------------------------
     # Caractéristiques
     # --------------------------------------------------
+    
     print("\n[CARACTERISTIQUES]")
     print(f"Masse               : {bearing.mass_kg:.3f} [kg]")
     print(f"Capacité dynamique  : {bearing.dynamic_capacity_N:,.0f} [N]")
@@ -488,6 +487,7 @@ def print_bearing_summary(bearing):
     # --------------------------------------------------
     # Frottement
     # --------------------------------------------------
+    
     print("\n[FROTTEMENT]")
     M = bearing.get_mean_torque(USAGE_PROFILE, vehicle.wheel_rpm_avg)
     E_km = energy_per_km(M)
@@ -499,6 +499,7 @@ def print_bearing_summary(bearing):
     # --------------------------------------------------
     # Durée de vie nominale
     # --------------------------------------------------
+    
     print("\n[DUREE DE VIE]")
     P_mean = (bearing.equivalent_dynamic_load_mean(USAGE_PROFILE))
     L10_km = (bearing.calculate_L10_mean_km(USAGE_PROFILE))
@@ -509,6 +510,7 @@ def print_bearing_summary(bearing):
     # --------------------------------------------------
     # Usure - Augmentation du couple
     # --------------------------------------------------
+    
     print("\n[USURE - AUGMENTATION DU COUPLE]")
     for km in [0, 250000, 500000, 750000, 1000000]:
         rev = km_to_revolutions(km)
@@ -518,13 +520,16 @@ def print_bearing_summary(bearing):
     # --------------------------------------------------
     # ACV - Scénarios de remplacement
     # --------------------------------------------------
+    
     print("\n[ACV - SCENARIOS DE REMPLACEMENT]")
-    for replacement_km in [25000, 100000, 300000, 500000, 800000, 1000000]:
+    for replacement_km in [(vehicle.vehicle_lifetime_km/10), (vehicle.vehicle_lifetime_km/5), (vehicle.vehicle_lifetime_km/3), (vehicle.vehicle_lifetime_km/2), (vehicle.vehicle_lifetime_km)]:
         co2 = total_co2_per_km(bearing, replacement_km)
         print(f"{replacement_km:>8,.0f} km -> {co2:.4f} [g/km]")
 
 selected_bearings = [bearing for bearing in bearings if bearing.name in SELECTED_BEARINGS]
-print(f"\nRoulements sélectionnés : {SELECTED_BEARINGS}")        
+
+print(f"\nRoulements sélectionnés : {SELECTED_BEARINGS}")      
+  
 if SHOW_CONSOLE_RESULTS:
     for bearing in selected_bearings:
         print_bearing_summary(bearing)
@@ -535,6 +540,7 @@ if SHOW_CONSOLE_RESULTS:
 # ------------------------------------------------------------
 # Evolution du frottement
 # ------------------------------------------------------------
+
 def plot_friction_evolution(bearing):
     km_values = np.linspace(0, vehicle.vehicle_lifetime_km, N_INTEGRATION_POINTS)
     torques = []
@@ -554,6 +560,7 @@ def plot_friction_evolution(bearing):
 # ------------------------------------------------------------
 # Etude de sensibilité sur alpha
 # ------------------------------------------------------------
+
 def plot_alpha_sensitivity(bearing):
     km_values = np.linspace(0, vehicle.vehicle_lifetime_km, N_INTEGRATION_POINTS)
     torques = []
@@ -574,6 +581,7 @@ def plot_alpha_sensitivity(bearing):
 # ------------------------------------------------------------
 # Évolution du CO2 de frottement
 # ------------------------------------------------------------
+
 def plot_CO2_evolution(bearing):
     km_values = np.linspace(0, vehicle.vehicle_lifetime_km, N_INTEGRATION_POINTS)
     plt.figure()
@@ -595,13 +603,14 @@ def plot_CO2_evolution(bearing):
 # ------------------------------------------------------------
 # Graphique principal - Distance optimale de remplacement
 # ------------------------------------------------------------
+
 def plot_bearing_replacement(bearing):
     replacement_values = np.linspace(10_000, vehicle.vehicle_lifetime_km, N_INTEGRATION_POINTS)
     co2_values = []
     optimization_results = {}
     print()
     print("=" * 60)
-    print("ACV - OPTIMISATION DES CHANGEMENTS DE ROULEMENTS")
+    print("ACV - OPTIMISATION DES CHANGEMENTS DE ROULEMENTS - {bearing.name}")
     print("=" * 60)
     for replacement_km in replacement_values:
         co2_values.append(total_co2_per_km(bearing, replacement_km))
@@ -609,7 +618,7 @@ def plot_bearing_replacement(bearing):
     idx_min = np.argmin(co2_values)
     optimal_km = replacement_values[idx_min]
     optimal_co2 = co2_values[idx_min]
-    print(f"\n[Cas basique : alpha = 0.5 - {bearing.name}]")
+    print("\n[Cas basique : alpha = 0.5]")
     print(f"Distance optimale : {optimal_km:,.0f} [km]")
     print(f"CO₂ minimal : {optimal_co2:.4f} [g/km]")
     plt.figure()
@@ -625,6 +634,7 @@ def plot_bearing_replacement(bearing):
 # ------------------------------------------------------------
 # Sensibilité de la distance de remplacement optimale à alpha
 # ------------------------------------------------------------
+
 def plot_bearing_sensitivity(bearing):
     replacement_values = np.linspace(10_000, vehicle.vehicle_lifetime_km, N_INTEGRATION_POINTS)
     plt.figure()
@@ -650,6 +660,7 @@ def plot_bearing_sensitivity(bearing):
 # ------------------------------------------------------------
 # Total CO2 emis moyen sur la vie du véhicule
 # ------------------------------------------------------------
+
 def plot_average_co2_vehicle_life(bearing):
     replacement_scenarios = [100000, 300000, 500000, 1000000]
     plt.figure()
