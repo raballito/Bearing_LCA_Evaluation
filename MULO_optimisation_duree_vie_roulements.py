@@ -502,6 +502,7 @@ def compute_beta_sensitivity(bearing, alpha=10):
 
 analysis_results = {}
 report_lines = []
+
 # ------------------------------------------------------------
 # 12. AFFICHAGE CONSOLE - Résumé Principal
 # ------------------------------------------------------------
