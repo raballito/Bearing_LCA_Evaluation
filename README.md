@@ -148,7 +148,7 @@ La durée de vie nominale est calculée selon :
 L10=(C/P)^p·10^6
 ```
 
-avec :
+Avec :
 
 ### Roulements à billes
 
@@ -178,15 +178,13 @@ M = M0·(1 + α·(N/L10)^β)
 ```
 
 Avec :
-
-| Paramètre | Signification |
-|-------------------------|
-| M0 | Couple du roulement neuf |
-| N | Nombre de tours réalisés |
-| L10 | Durée de vie nominale |
-| α | Amplitude de la dégradation |
-| β | Force de la dégradation |
-
+```text
+- M0   : Couple du roulement neuf
+- N    : Nombre de tours réalisés
+- L10  : Durée de vie nominale
+- α    : Amplitude de la dégradation
+- β    : Force de la dégradation
+```
 ---
 
 # Hypothèses principales
@@ -255,12 +253,12 @@ Valeur nominale :
 
 Interprétation :
 
-| β | Interprétation |
-|-------------|
-| β < 1 | Usure précocee|
-| β = 1 | Usure linéaire |
-| β = 2 | Usure progressive |
-| β > 2 | Usure retardée |
+```text
+- β < 1 : Usure précoce
+- β = 1 : Usure linéaire
+- β = 2 : Usure progressive
+- β > 2 : Usure retardée
+```
 
 Valeurs étudiées :
 
